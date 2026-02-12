@@ -24,14 +24,14 @@ class Player:
         while not (symbol.isalpha() and len(symbol) == 1 and symbol in self.SYMBOLS):
             symbol = input(f"Invalid! Please enter a SINGLE letter: ").strip().upper()
 
+        self.SYMBOLS.remove(symbol)
         self.symbol = symbol
-        print(self.symbol)
 
 class Menu:
     MAIN_MENU_OPTIONS = {
-        "1": "START_GAME",
+        "1": "START GAME",
         "2": "GAME INFO",
-        "3": "SOCRE RECORD",
+        "3": "SCORE RECORD",
         "4": "QUIT GAME"
     }
     
@@ -41,11 +41,9 @@ class Menu:
     }
 
     def display_main_menu(self):
-        print(f"Welcome to Tic_Tac_Toe!")
         return self.display_and_validate(self.MAIN_MENU_OPTIONS)
 
     def display_end_game_menu(self):
-        print("Game Over!")
         return self.display_and_validate(self.END_GAME_OPTIONS)
     
     @staticmethod
@@ -86,27 +84,47 @@ class Game:
         self.players = [Player(), Player()]
         self.board = Board()
         self.menu = Menu()
+        self.main_act = self.main_actions()
+        self.end_act = self.end_actions()
         self.curt_pl_idx = 0
 
-    def start_game(self):
-        return self.menu.display_main_menu()
+    def main_actions(self):
+        MAIN_MENU = {
+            "START GAME": self.play_game,
+            "GAME INFO": self.game_info,
+            "SCORE RECORD": "",
+            "QUIT GAME": self.quit_game
+        }
+        return MAIN_MENU
+
+    def end_actions(self):
+        END_MENU = {
+            "RESTART GAME": self.restart_game,
+            "QUIT GAME": self.quit_game
+        }
+        return END_MENU
 
     def setup_players(self):
         for idx, player in enumerate(self.players, 1):
             print(f"Player{idx}. Enter Your Details:")
             player.choose_name()
             player.choose_symbol()
-
-    def game(self):
-        END_MENU = self.set_end_menu()
-        self.setup_players()
         clear_screen()
+
+    def start_game(self):
+        action = self.menu.display_main_menu()
+        if action in self.main_act.keys():
+            self.main_act.get(action)()
+        
+    def play_game(self):
+        self.setup_players()
         while True:
             self.play_turn()
             if self.check_win() or self.check_draw():
+                print("\nGame Over!")
                 action = self.menu.display_end_game_menu()
-                if action in END_MENU.keys():
-                    END_MENU.get(action)()
+                if action in self.end_act.keys():
+                    self.end_act.get(action)()
 
     def play_turn(self):
         player = self.players[self.curt_pl_idx]
@@ -128,27 +146,18 @@ class Game:
         self.switch_player()
 
     def switch_player(self):
-        self.curt_pl_idx -= 1
-
-    def quit_game(self):
-        print("\nThank You For Playing!")
-
-    def play_game(self):
-        MENU = self.set_main_menu()
-        action = self.start_game()
-        if action in MENU.keys():
-            MENU.get(action)()
-        else:
-            print("fuck")
-        
+        self.curt_pl_idx = 1 - self.curt_pl_idx
+      
     @staticmethod
     def game_info():
         info = [
             "Tic-Tac-Toe is a classic two-player strategy game.\n",
-            "Opponents take turns marking spaces in a 3x3 grid.\n",
-            "The objective is to align three symbols."
+            "\nOpponents take turns marking spaces in a 3x3 grid.\n",
+            "\nThe objective is to align three symbols."
         ]
+        print("\n--- GAME INFO ---\n")
         print(''.join(info))
+        print("\n","-"*30)
 
     def check_win(self):
         win_combainations = [
@@ -162,7 +171,7 @@ class Game:
                 self.board.board[combo[1]] == 
                 self.board.board[combo[2]]):
                 return True
-            return False
+        return False
 
     def check_draw(self):
         return all(not cell.isdigit() for cell in self.board.board)
@@ -172,22 +181,15 @@ class Game:
         self.curt_pl_idx = 0
         self.play_game()
 
-    def set_main_menu(self):
-        MAIN_MENU = {
-            "START_GAME": self.game,
-            "GAME INFO": self.game_info,
-            "SCORE RECORD": "",
-            "QUIT GAME": self.quit_game
-        }
-        return MAIN_MENU
-    
-    def set_end_menu(self):
-        END_GAME_MENU = {
-            "RESTART GAME": self.restart_game,
-            "QUIT GAME": self.quit_game
-        }
-        return END_GAME_MENU
+    def quit_game(self):
+        print("\nThank You For Playing!")
+        exit()
+
+    def run_cycle(self):
+        print(f"\nWelcome to Tic_Tac_Toe!")
+        while True:
+            self.start_game()
 
 
 if __name__ == "__main__":
-    Game().play_game()
+    Game().run_cycle()
