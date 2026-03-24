@@ -36,7 +36,7 @@ class Player:
             f"{self.name} Choose Your Symbol (X OR O DEFAULT({self.SYMBOLS[0]})): "
             ).strip().upper()
         
-        while not (symbol.isalpha() and len(symbol) == 1 and symbol in self.SYMBOLS):
+        while not symbol in self.SYMBOLS:
             symbol = input(f"Invalid! Please enter a SINGLE letter: ").strip().upper()
 
         self.SYMBOLS.remove(symbol)
