@@ -1,7 +1,22 @@
 import os
+from uuid import uuid4
+import sqlite3
 
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+conn = sqlite3.connect("game_data.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS scores (
+        id TEXT PRIMARY KEY,
+        player_name TEXT,
+        score INTEGER
+    )
+""")
 
 class Player:
     SYMBOLS = ["X", "O"]
@@ -87,6 +102,8 @@ class Game:
         self.main_act = self.main_actions()
         self.end_act = self.end_actions()
         self.curt_pl_idx = 0
+        self.player_ids = []
+        self.curt_pl = None
 
     def main_actions(self):
         MAIN_MENU = {
@@ -109,6 +126,7 @@ class Game:
             print(f"Player{idx}. Enter Your Details:")
             player.choose_name()
             player.choose_symbol()
+            self.set_id(player.name)
         clear_screen()
 
     def start_game(self):
@@ -120,11 +138,20 @@ class Game:
         self.setup_players()
         while True:
             self.play_turn()
-            if self.check_win() or self.check_draw():
-                print("\nGame Over!")
+            if self.check():
                 action = self.menu.display_end_game_menu()
                 if action in self.end_act.keys():
                     self.end_act.get(action)()
+
+    def check(self):
+        if self.check_win():
+            print(f"{self.curt_pl.name} Wins!")
+            self.save_score(self.get_id(self.curt_pl))
+            return True
+        elif self.check_draw():
+            print("It's a Draw!")
+            return True
+        return False
 
     def play_turn(self):
         player = self.players[self.curt_pl_idx]
@@ -133,6 +160,7 @@ class Game:
         print(f"{player.name}'s turn ({player.symbol})")
         while True:
             try:
+                self.curt_pl = player
                 cell_choice = int(input("Choose a cell (1-9): "))
                 
                 if 1<= cell_choice <=9 and self.board.update_board(cell_choice, player.symbol):
@@ -144,6 +172,24 @@ class Game:
                 print("Please Enter a number between (1-9).")
 
         self.switch_player()
+
+    def get_id(self, player):
+        cursor.execute("SELECT id FROM scores WHERE player_name = ?", (player.name,))
+        return cursor.fetchone()[0]
+
+    def set_id(self, player):
+        pl_id = str(uuid4())
+        self.player_ids.append(pl_id)
+
+        cursor.execute("INSERT INTO scores (id, player_name) VALUES (?, ?)", (pl_id, player))
+        self.commit()
+
+    def save_score(self, id):
+        cursor.execute("UPDATE scores SET score = score + 1 WHERE id == ?", (id,))
+        self.commit()
+
+    def commit(self):
+        conn.commit()
 
     def switch_player(self):
         self.curt_pl_idx = 1 - self.curt_pl_idx
@@ -177,9 +223,10 @@ class Game:
         return all(not cell.isdigit() for cell in self.board.board)
 
     def restart_game(self):
+        clear_screen
         self.board.reset_board()
         self.curt_pl_idx = 0
-        self.play_game()
+        self.play_turn()
 
     def quit_game(self):
         print("\nThank You For Playing!")
@@ -190,6 +237,19 @@ class Game:
         while True:
             self.start_game()
 
-
 if __name__ == "__main__":
     Game().run_cycle()
+
+
+
+
+
+
+
+
+# def set_id(self, player):
+#     pl_id = str(uuid4())
+#     self.player_ids.append(pl_id)
+
+#     cursor.execute("INSERT INTO scores (id, player_name) VALUES (?, ?)", (pl_id, player.name))
+#     self.commit()
