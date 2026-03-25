@@ -14,7 +14,7 @@ class BaseResult:
         self.ok = True
         return self
     
-    def validatoin_error(self, error):
+    def validation_error(self, error):
         self.ok = False
         self.error = error
         self.meta = {"error_type": "ValidationError"}
