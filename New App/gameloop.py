@@ -1,6 +1,7 @@
+from helpers import *
 from interface.cli import Cli
 from game.state import GameState
-from helpers import *
+from game.logic import check
 
 class GameLoop:
     def __init__(self):
@@ -8,12 +9,22 @@ class GameLoop:
         self.game_state = GameState()
 
     def set_players(self):
-        for idx in range(1, 3):
-            player = self.cli.player_name(idx)
-            symbol = self.cli.player_symbol(player)
+        for idx, player in enumerate(self.game_state.players,1):
+            player.name = self.cli.player_name(idx)
+            player.symbol = self.cli.player_symbol(player.name)
             clear_screen()
+
+    def play_game(self):
+        self.set_players()
+        while True:
+            self.cli.play_turn(self.game_state)
+            check(self.game_state)
 
 if __name__ == "__main__":
     game = GameLoop()
-    game.set_players()
-    game.cli.display_board(game.game_state.board.board, game.game_state.board.size)
+    game.play_game()
+
+    
+    # game.set_players()
+    # game.cli.play_turn(game.game_state)
+    # game.cli.display_board(game.game_state.board.board, game.game_state.board.size)

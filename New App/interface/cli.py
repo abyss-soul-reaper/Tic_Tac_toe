@@ -1,3 +1,5 @@
+from interface.cli_helper import *
+
 class Cli:
     """A class to handle command-line interactions for the Tic Tac Toe game.
     """
@@ -22,6 +24,27 @@ class Cli:
     def change_board_size(self):
         size = input("Enter New Board Size (e.g., 3 for 3x3): ")
         return {"board_size": size}
+
+    def play_turn(self, game_state):
+        player = game_state.players[game_state.curt_pl_idx]
+        self.display_board(game_state.board.board, game_state.board.size)
+
+        print(f"{player.name}'s turn ({player.symbol})")
+        while True:
+            try:
+                self.curt_pl_idx = player
+                cell_choice = int(input("Choose a cell (1-9): "))
+                
+                if 1<= cell_choice <=9 and game_state.board.update_board(cell_choice, player.symbol):
+                    break
+                else:
+                    print("Invalid Move! Try Again.")
+
+            except ValueError:
+                print("Please Enter a number between (1-9).")
+
+        switch_player(game_state)
+
 
     # ----- Board Interaction Methods -----
     def display_board(self, board, size):
