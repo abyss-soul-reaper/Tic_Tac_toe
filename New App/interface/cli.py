@@ -1,4 +1,5 @@
 from interface.cli_helper import *
+from helpers import *
 
 class Cli:
     """A class to handle command-line interactions for the Tic Tac Toe game.
@@ -35,7 +36,7 @@ class Cli:
                 self.curt_pl_idx = player
                 cell_choice = int(input("Choose a cell (1-9): "))
                 
-                if 1<= cell_choice <=9 and game_state.board.update_board(cell_choice, player.symbol):
+                if update_cell(game_state.board, player, cell_choice):
                     break
                 else:
                     print("Invalid Move! Try Again.")
@@ -44,6 +45,8 @@ class Cli:
                 print("Please Enter a number between (1-9).")
 
         switch_player(game_state)
+        clear_screen()
+
 
 
     # ----- Board Interaction Methods -----
