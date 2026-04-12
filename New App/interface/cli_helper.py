@@ -4,3 +4,9 @@ def switch_player(game_state):
 def update_cell(board, player, cell_choice):
     if 1<= cell_choice <=board.size**2 and board.update_board(cell_choice, player.symbol):
         return True
+
+def mapping(menu):
+    INDEX_MAP = {}
+    for idx, action in enumerate(menu, 1):
+        INDEX_MAP[idx] = action.value
+    return INDEX_MAP

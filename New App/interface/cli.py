@@ -24,7 +24,7 @@ class Cli:
 
     def change_board_size(self):
         size = input("Enter New Board Size (e.g., 3 for 3x3): ")
-        return {"board_size": size}
+        return size
 
     def play_turn(self, game_state):
         player = game_state.players[game_state.curt_pl_idx]
@@ -33,7 +33,7 @@ class Cli:
         print(f"{player.name}'s turn ({player.symbol})")
         while True:
             try:
-                self.curt_pl_idx = player
+                self.curt_pl = player
                 cell_choice = int(input("Choose a cell (1-9): "))
                 
                 if update_cell(game_state.board, player, cell_choice):
@@ -47,6 +47,13 @@ class Cli:
         switch_player(game_state)
         clear_screen()
 
+    def status_message(self, status):
+        if status == "win":
+            print(f"Congratulations! {self.curt_pl.name} wins!")
+            exit()
+        elif status == "draw":
+            print("It's a draw!")
+            exit()
 
 
     # ----- Board Interaction Methods -----
@@ -56,6 +63,29 @@ class Cli:
             if i < (len(board) - size):
                 print("_" * (2 * size - 1))
 
+    # ----- Menu Interaction Methods -----
+    @staticmethod
+    def game_info():
+        info = [
+            "Tic-Tac-Toe is a classic two-player strategy game.\n",
+            "\nOpponents take turns marking spaces in a 3x3 grid.\n",
+            "\nThe objective is to align three symbols."
+        ]
+        print("\n--- GAME INFO ---\n")
+        print(''.join(info))
+        print("\n","-"*30)
 
-
-
+    def select_action(menu):
+        INDEX_MAP = mapping(menu)
+        for idx, action in INDEX_MAP.items():
+            print(f"{idx}. {action}")
+            
+        while True:
+            try:
+                choice = int(input("Select an option: "))
+                if choice in INDEX_MAP:
+                    return INDEX_MAP[choice]
+                else:
+                    print("Invalid choice! Please select a valid option.")
+            except ValueError:
+                print("Please enter a number corresponding to the options.")

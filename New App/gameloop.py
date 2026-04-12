@@ -1,15 +1,15 @@
 from helpers import *
-from interface.cli import Cli
-from game.state import GameState
-from game.logic import check
 from game_enum import *
+from game.logic import check
+from interface.cli import Cli
 from registry import Registry
+from game.state import GameState
 
 class GameLoop:
     def __init__(self):
         self.cli = Cli()
+        self.enums = GameEnum
         self.game_state = GameState()
-        self.enums = GameResult
         self.registry = Registry(self.enums)
 
     def set_players(self):
@@ -23,9 +23,8 @@ class GameLoop:
         while True:
             self.cli.play_turn(self.game_state)
             status = check(self.game_state, self.enums)
-            if status in [self.enums.WIN, self.enums.DRAW]:
-                print(self.registry.check_map().get(status))
-                break
+            self.cli.status_message(status.value)
+
 
 if __name__ == "__main__":
     game = GameLoop()
