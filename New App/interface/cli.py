@@ -5,6 +5,8 @@ from helpers import *
 class Cli:
     """A class to handle command-line interactions for the Tic Tac Toe game.
     """
+    def __init__(self, enums):
+        self.enums = enums
 
     # ----- Player Interaction Methods -----
     @staticmethod
@@ -21,8 +23,8 @@ class Cli:
             symbol = input("Invalid symbol! Please enter 'X' or 'O': ").strip().upper()
         return symbol
 
-
-    def change_board_size(self):
+    @staticmethod
+    def change_board_size():
         size = input("Enter New Board Size (e.g., 3 for 3x3): ")
         return size
 
@@ -32,21 +34,21 @@ class Cli:
         print(f"{player.name}'s turn ({player.symbol})")
         while True:
             try:
-                cell_choice = int(input("Choose a cell (1-9): "))
+                cell_choice = int(input(f"Choose a cell (1-{board.size ** 2}): "))
                 if update_cell(board, player.symbol, cell_choice):
                     break
                 else:
                     print("Invalid Move! Try Again.")
 
             except ValueError:
-                print("Please Enter a number between (1-9).")
+                print(f"Please Enter a number between (1-{board.size ** 2}).")
         clear_screen()
 
-    def status_message(self, status):
-        if status == "win":
-            print(f"Congratulations! {self.curt_pl.name} wins!")
+    def status_message(self, player, status):
+        if status == self.enums.WIN:
+            print(f"Congratulations! {player.name} wins!")
             exit()
-        elif status == "draw":
+        elif status == self.enums.DRAW:
             print("It's a draw!")
             exit()
 
@@ -73,7 +75,7 @@ class Cli:
         
     @staticmethod
     def select_action(menu):
-        INDEX_MAP = mapping(menu)
+        INDEX_MAP = menu_map(menu)
         for idx, action in INDEX_MAP.items():
             print(f"{idx}. {action}")
             
@@ -86,6 +88,9 @@ class Cli:
                     print("Invalid choice! Please select a valid option.")
             except ValueError:
                 print("Please enter a number corresponding to the options.")
+
+
+
 
 
 

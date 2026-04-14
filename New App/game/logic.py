@@ -1,7 +1,7 @@
-def check(game_state, enums):
-    if check_win(game_state.board.board):
+def check(board, enums):
+    if check_win(board.board):
         return enums.WIN
-    elif check_draw(game_state.board.board):
+    elif check_draw(board.board):
         return enums.DRAW
     return enums.CONTINUE
 

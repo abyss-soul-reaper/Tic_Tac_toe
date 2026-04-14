@@ -4,7 +4,7 @@ def update_cell(board, symbol, cell_choice):
     if 1<= cell_choice <=board.size**2 and board.update_board(cell_choice, symbol):
         return True
 
-def mapping(menu):
+def menu_map(menu):
     INDEX_MAP = {}
     for idx, action in enumerate(menu, 1):
         INDEX_MAP[idx] = action.value

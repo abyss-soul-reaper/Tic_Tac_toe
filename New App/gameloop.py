@@ -9,10 +9,11 @@ from game.board import Board
 
 class GameLoop:
     def __init__(self):
-        self.cli = Cli()
         self.enums = GameEnum
+        self.cli = Cli(self.enums)
         self.game_state = GameState
         self.registry = Registry(self, self.enums)
+        self.current_menu = "main_menu"
 
     def set_players(self):
         players = []
@@ -23,23 +24,32 @@ class GameLoop:
             clear_screen()
         return players
         
-    # def play_game(self):
-    #     self.set_players()
-    #     while True:
-    #         self.cli.play_turn(self.game_state)
-    #         status = check(self.game_state, self.enums)
-    #         self.cli.status_message(status.value)
+    def play_game(self):
+        players = self.set_players()
+        self.game_state = GameState(players, Board())
 
-    # def start_game(self):
-    #     actions = get_menu_actions(self.game_state.menu)
-    #     action = self.cli.select_action(actions)
-    #     menu = self.registry.main_menu_actions()
-    #     if action in menu.keys():
-    #         menu.get(action)()
+        player = self.game_state.current_player
+        board = self.game_state.board
+
+        while True:
+            self.cli.play_turn(player, board)
+            status = check(board, self.enums)
+            self.cli.status_message(player, status)
+            self.game_state.switch_player()
+            player = self.game_state.current_player
+
+
+    def start_game(self):
+        actions = get_menu_actions(self.current_menu)
+        action = self.cli.select_action(actions)
+        clear_screen()
+        menu = self.registry.main_menu_actions()
+        if action in menu.keys():
+            menu.get(action)()
         
 if __name__ == "__main__":
     game = GameLoop()
-    # game.start_game()
+    game.start_game()
     # game.play_game()
 
     
