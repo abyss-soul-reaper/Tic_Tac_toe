@@ -7,16 +7,6 @@ def clear_screen():
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-conn = sqlite3.connect("game_data.db")
-cursor = conn.cursor()
-
-cursor.execute("""
-    CREATE TABLE IF NOT EXISTS scores (
-        id TEXT PRIMARY KEY,
-        player_name TEXT,
-        score INTEGER
-    )
-""")
 
 class Player:
     SYMBOLS = ["X", "O"]
@@ -27,7 +17,7 @@ class Player:
 
     def choose_name(self):
         name = input("Enter Your Name (Only Letters!): ").strip().title()
-        while not name.isalpha():
+        while not name.isascii():
             name = input("Invalid name! Make Sure Your Name Is Alphabetic: ")
         self.name = name
 
@@ -172,24 +162,6 @@ class Game:
                 print("Please Enter a number between (1-9).")
 
         self.switch_player()
-
-    def get_id(self, player):
-        cursor.execute("SELECT id FROM scores WHERE player_name = ?", (player.name,))
-        return cursor.fetchone()[0]
-
-    def set_id(self, player):
-        pl_id = str(uuid4())
-        self.player_ids.append(pl_id)
-
-        cursor.execute("INSERT INTO scores (id, player_name) VALUES (?, ?)", (pl_id, player))
-        self.commit()
-
-    def save_score(self, id):
-        cursor.execute("UPDATE scores SET score = score + 1 WHERE id == ?", (id,))
-        self.commit()
-
-    def commit(self):
-        conn.commit()
 
     def switch_player(self):
         self.curt_pl_idx = 1 - self.curt_pl_idx
