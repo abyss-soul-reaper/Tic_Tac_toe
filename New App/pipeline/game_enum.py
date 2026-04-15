@@ -7,27 +7,27 @@ class GameEnum(Enum):
     CONTINUE = "continue"
 
     # Define Menu options
-    START_GAME = "START GAME"
-    GAME_INFO = "GAME INFO"
-    SCORE_RECORD = "SCORE RECORD"
-    QUIT_GAME = "QUIT GAME"
+    START_GAME = "START_GAME"
+    GAME_INFO = "GAME_INFO"
+    SCORE_RECORD = "SCORE_RECORD"
+    QUIT_GAME = "QUIT_GAME"
 
     # ⚙️ Settings
-    OPEN_SETTINGS = "Settings"
-    CHANGE_BOARD_SIZE = "Change Board Size"
-    RESET_SETTINGS = "Reset Settings"
+    SETTINGS = "SETTINGS"
+    CHANGE_BOARD_SIZE = "CHANGE_BOARD_SIZE"
+    RESET_SETTINGS = "RESET_SETTINGS"
 
-    RESTART_GAME = "RESTART GAME"
+    RESTART_GAME = "RESTART_GAME"
 
     # 🧭 Navigation
-    NAV_BACK = "Back"
+    NAV_BACK = "NAV_BACK"
 
 MENU_ACTIONS = {
     "main_menu": [
         GameEnum.START_GAME,
         GameEnum.GAME_INFO,
         GameEnum.SCORE_RECORD,
-        GameEnum.OPEN_SETTINGS,
+        GameEnum.SETTINGS,
         GameEnum.QUIT_GAME,
     ],
 

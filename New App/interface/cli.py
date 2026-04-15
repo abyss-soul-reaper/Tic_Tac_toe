@@ -65,21 +65,21 @@ class Cli:
         print("\n","-"*30)
 
         
-    @staticmethod
-    def select_action(menu):
-        INDEX_MAP = menu_map(menu)
-        for idx, action in INDEX_MAP.items():
-            print(f"{idx}. {action}")
+    # @staticmethod
+    # def select_action(menu):
+    #     INDEX_MAP = menu_map(menu)
+    #     for idx, action in INDEX_MAP.items():
+    #         print(f"{idx}. {action}")
             
-        while True:
-            try:
-                choice = int(input("Select an option: "))
-                if choice in INDEX_MAP:
-                    return resolver(INDEX_MAP[choice])
-                else:
-                    print("Invalid choice! Please select a valid option.")
-            except ValueError:
-                print("Please enter a number corresponding to the options.")
+    #     while True:
+    #         try:
+    #             choice = int(input("Select an option: "))
+    #             if choice in INDEX_MAP:
+    #                 return resolver(INDEX_MAP[choice])
+    #             else:
+    #                 print("Invalid choice! Please select a valid option.")
+    #         except ValueError:
+    #             print("Please enter a number corresponding to the options.")
 
 
 

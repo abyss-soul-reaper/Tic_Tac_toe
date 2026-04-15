@@ -11,18 +11,5 @@ def menu_map(menu):
     return INDEX_MAP
 
 
-def resolver(action):
-    if isinstance(action, GameEnum):
-        enum_action = action
-    elif isinstance(action, str):
-        try:
-                enum_action = GameEnum[action.replace(' ', '_').upper()]
-        except KeyError:
-            raise ValueError(f"Unknown feature: {action}")
-    else:
-        raise TypeError("Invalid feature type")
-
-    return enum_action
-
 
     
