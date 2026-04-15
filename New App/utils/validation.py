@@ -9,20 +9,12 @@ def validate_name(name):
 def validate_symbol(symbol):
     return bool(SYMBO_PATTERN.fullmatch(symbol.strip().upper()))
 
-
-# def validate_players (players):
-#     if not isinstance(players, list):
-#         raise ValueError("Players should be provided as a list.")
-
-#     if len(players) < 2:
-#         raise ValueError("At least two players are required.")
-
-# def validate_board(board):
-#     if not isinstance(board, Board):
-#         raise ValueError("Invalid board object.")
+def validate_board_size(size):
+    try:
+        size_int = int(size)
+        return 3 <= size_int <= 10
+    except ValueError:
+        return False
     
-#     if not isinstance(board.size, int) or board.size <= 3:
-#         raise ValueError("Board size must be an integer greater than 3.")
-    
-#     if not isinstance(board.board, list) or len(board.board) != board.size**2:
-#         raise ValueError("Board state is invalid.")
+# def validate_cell_choice(cell_choice):
+

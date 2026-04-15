@@ -1,26 +1,20 @@
+from result.base_result import BaseResult
+from pipeline.game_enum import GameEnum
 from interface.cli_helper import *
-from validation import *
-from helpers import *
+from utils.helpers import *
 
 class Cli:
     """A class to handle command-line interactions for the Tic Tac Toe game.
     """
-    def __init__(self, enums):
-        self.enums = enums
-
     # ----- Player Interaction Methods -----
     @staticmethod
     def player_name():
-        name = input(f"Enter your name (Only Letters!): ").strip().title()
-        while not validate_name(name):
-            name = input("Invalid name! Enter a valid name (Only Letters!): ").strip().title()
+        name = input(f"Enter your name (Only Letters!): ")
         return name
 
     @staticmethod
     def player_symbol():
-        symbol = input(f"choose your symbol (X OR O): ").strip().upper()
-        while not validate_symbol(symbol):
-            symbol = input("Invalid symbol! Please enter 'X' or 'O': ").strip().upper()
+        symbol = input(f"choose your symbol (X OR O): ")
         return symbol
 
     @staticmethod
@@ -35,7 +29,7 @@ class Cli:
         while True:
             try:
                 cell_choice = int(input(f"Choose a cell (1-{board.size ** 2}): "))
-                if update_cell(board, player.symbol, cell_choice):
+                if board.update_board(cell_choice, player.symbol):
                     break
                 else:
                     print("Invalid Move! Try Again.")
@@ -45,9 +39,9 @@ class Cli:
         clear_screen()
 
     def status_message(self, player, status):
-        if status == self.enums.WIN:
+        if status == GameEnum.WIN:
             print(f"Congratulations! {player.name} wins!")
-        elif status == self.enums.DRAW:
+        elif status == GameEnum.DRAW:
             print("It's a draw!")
 
 

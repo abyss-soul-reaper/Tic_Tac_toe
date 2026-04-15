@@ -3,14 +3,15 @@ class Board:
         self.size = size
         self.board = [str(i) for i in range(1, self.size**2 + 1)]
 
-    def update_board(self, choice, symbol):
-        if self.is_valid_move(choice):
-            self.board[choice - 1] = symbol
-            return True
+    def update_board(self, cell_choice, symbol):
+        if 1<= cell_choice <=self.size**2 and self.is_valid_move(cell_choice):
+            self.board[cell_choice - 1] = symbol
         return False
     
     def reset_board(self):
         self.board = [str(i) for i in range(1, self.size**2 + 1)]
 
-    def is_valid_move(self, choice):
-        return self.board[choice - 1].isdigit()
+    def is_valid_move(self, cell_choice):
+        return self.board[cell_choice - 1].isdigit()
+    
+  

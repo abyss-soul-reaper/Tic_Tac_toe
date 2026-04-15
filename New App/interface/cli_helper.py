@@ -1,8 +1,8 @@
-from game_enum import GameEnum
+from pipeline.game_enum import GameEnum
 
-def update_cell(board, symbol, cell_choice):
-    if 1<= cell_choice <=board.size**2 and board.update_board(cell_choice, symbol):
-        return True
+# def update_cell(board, symbol, cell_choice):
+#     if 1<= cell_choice <=board.size**2 and board.update_board(cell_choice, symbol):
+#         return True
 
 def menu_map(menu):
     INDEX_MAP = {}
@@ -23,3 +23,6 @@ def resolver(action):
         raise TypeError("Invalid feature type")
 
     return enum_action
+
+
+    

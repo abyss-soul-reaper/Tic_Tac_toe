@@ -1,6 +1,6 @@
 from interface.cli import Cli
-from config.registry import Registry
-from config.dispatcher import Dispatcher
+from pipeline.registry import Registry
+from pipeline.dispatcher import Dispatcher
 
 
 
