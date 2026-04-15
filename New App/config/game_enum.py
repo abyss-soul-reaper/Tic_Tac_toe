@@ -12,21 +12,37 @@ class GameEnum(Enum):
     SCORE_RECORD = "SCORE RECORD"
     QUIT_GAME = "QUIT GAME"
 
-    # Define End Game options
+    # ⚙️ Settings
+    OPEN_SETTINGS = "Settings"
+    CHANGE_BOARD_SIZE = "Change Board Size"
+    RESET_SETTINGS = "Reset Settings"
+
     RESTART_GAME = "RESTART GAME"
-    END_QUIT_GAME = "QUIT GAME"
+
+    # 🧭 Navigation
+    NAV_BACK = "Back"
 
 MENU_ACTIONS = {
     "main_menu": [
         GameEnum.START_GAME,
         GameEnum.GAME_INFO,
         GameEnum.SCORE_RECORD,
+        GameEnum.OPEN_SETTINGS,
         GameEnum.QUIT_GAME,
     ],
-    "end_game_menu": [
+
+    "settings_menu": [
+        GameEnum.CHANGE_BOARD_SIZE,
+        GameEnum.RESET_SETTINGS,
+        GameEnum.NAV_BACK,
+    ],
+
+    "end_menu": [
         GameEnum.RESTART_GAME,
-        GameEnum.END_QUIT_GAME,
-    ]
+        GameEnum.SCORE_RECORD,
+        GameEnum.NAV_BACK,
+        GameEnum.QUIT_GAME,
+    ],
 }
 
 def get_menu_actions(menu_name: str):

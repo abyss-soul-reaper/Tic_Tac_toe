@@ -47,10 +47,8 @@ class Cli:
     def status_message(self, player, status):
         if status == self.enums.WIN:
             print(f"Congratulations! {player.name} wins!")
-            exit()
         elif status == self.enums.DRAW:
             print("It's a draw!")
-            exit()
 
 
     # ----- Board Interaction Methods -----

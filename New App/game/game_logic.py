@@ -1,9 +1,11 @@
-def check(board, enums):
+from config.game_enum import GameEnum
+
+def check(board):
     if check_win(board.board):
-        return enums.WIN
+        return GameEnum.WIN
     elif check_draw(board.board):
-        return enums.DRAW
-    return enums.CONTINUE
+        return GameEnum.DRAW
+    return GameEnum.CONTINUE
 
 def check_win(board):
     win_combainations = [

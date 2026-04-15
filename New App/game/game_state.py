@@ -10,3 +10,7 @@ class GameState:
 
     def switch_player(self):
         self.current_idx = 1 - self.current_idx
+
+    def reset(self):
+        self.board.reset_board()
+        self.current_idx = 0
