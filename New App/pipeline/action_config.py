@@ -21,9 +21,16 @@ class Resolver:
         return enum_action, config
 
 ACTION_CONFIG = {
-     GameEnum.START_GAME: {
-          "requires_input": True,
-          "requires_pipeline": True,
-     }
+    GameEnum.START_GAME: {
+        "requires_input": False,
+        "requires_system": True,
+        "requires_pipeline": False,
+    },
+    # GameEnum.SET_PLAYERS: {
+    #     "requires_input": True,
+    #     "requires_system": False,
+    #     "requires_pipeline": True,
+    # },
+
      
 }

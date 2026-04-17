@@ -6,28 +6,22 @@ class Registry:
         self.gameloop = gameloop
 
 
+
     def input_actions_map(self):
-        INPUT_ACTIONS_MAP = {
-            GameEnum.START_GAME: self.gameloop.cli.player_name,
+        INPUT_ACTION_MAP = {
+            GameEnum.SET_PLAYERS_NAME: self.gameloop.cli.player_name,
+            GameEnum.SET_PLAYERS_SYMBOL: self.gameloop.cli.player_symbol
         }
-        return INPUT_ACTIONS_MAP
+        return INPUT_ACTION_MAP
 
-
-
-
-    @property
-    def main_menu_actions(self):
-        MAIN_MENU_MAP = {
-            GameEnum.START_GAME: self.gameloop.play_game,
-            # GameEnum.GAME_INFO: ,
-            # GameEnum.SCORE_RECORD: ,
-            # GameEnum.OPEN_SETTINGS: ,
-            # GameEnum.QUIT_GAME: 
+    def system_actions_map(self):
+        SYSTEM_ACTION_MAP = {
+            GameEnum.START_GAME: self.gameloop.start_game,
+            # GameEnum.SET_PLAYERS: self.gameloop.setup_players
         }
-        return MAIN_MENU_MAP
+        return SYSTEM_ACTION_MAP
 
     # ---- Pipeline Action Maps ----
-
     def validate_map(self):
         VALIDATE_MAP = {
             "name": validate_name,

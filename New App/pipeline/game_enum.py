@@ -13,8 +13,8 @@ class GameEnum(Enum):
     QUIT_GAME = "QUIT_GAME"
 
     # 👤 Player Setup
-    SET_PLAYER_NAME = "SET_PLAYER_NAME"
-    SET_PLAYER_SYMBOL = "SET_PLAYER_SYMBOL"
+    SET_PLAYERS_NAME = "SET_PLAYERS_NAME"
+    SET_PLAYERS_SYMBOL = "SET_PLAYERS_SYMBOL"
 
     # ⚙️ Settings
     SETTINGS = "SETTINGS"
@@ -43,8 +43,8 @@ MENU_ACTIONS = {
     ],
 
     "game_setup": [
-        GameEnum.SET_PLAYER_NAME,
-        GameEnum.SET_PLAYER_SYMBOL,
+        GameEnum.SET_PLAYERS_NAME,
+        GameEnum.SET_PLAYERS_SYMBOL,
         GameEnum.CHANGE_BOARD_SIZE,
         GameEnum.START_MATCH,
         GameEnum.NAV_BACK,

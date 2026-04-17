@@ -22,9 +22,26 @@ class Dispatcher:
             return res.success()
         except Exception as e:
             return res.fail(str(e))
+        
+    # ---- System Methods ----
+    def execute_system(self, config, action):
+        res = BaseResult()
+
+        if not config:
+            return res.fail("No configuration for system action")
+        
+        handler = self.registry.system_actions_map()
+        if action not in handler:
+            return res.fail("No system handler for action")
+        
+        try:
+            handler[action]()
+            return res.success()
+        except Exception as e:
+            return res.fail(str(e))
 
     # ---- Pipeline Methods ----
-    def execute_pipeline(self,data):
+    def execute_pipeline(self, data):
         res = BaseResult()
 
         pipe = self.pipeline.input_pipeline(data)
@@ -56,6 +73,12 @@ class Dispatcher:
             if not pipeline_res.ok:
                 return pipeline_res
             current_data = pipeline_res.payload
+
+        # SYSTEM
+        if config.get("requires_system"):
+            system_res = self.execute_system(config, enum_action)
+            if not system_res.ok:
+                return system_res
             
             
 

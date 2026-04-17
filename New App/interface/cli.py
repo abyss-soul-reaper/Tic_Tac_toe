@@ -1,5 +1,4 @@
-from result.base_result import BaseResult
-from pipeline.game_enum import GameEnum
+from pipeline.game_enum import get_menu_actions
 from interface.cli_helper import *
 from utils.helpers import *
 
@@ -10,17 +9,17 @@ class Cli:
     @staticmethod
     def player_name():
         name = input(f"Enter your name (Only Letters!): ")
-        return name
+        return {"name": name}
 
     @staticmethod
     def player_symbol():
         symbol = input(f"choose your symbol (X OR O): ")
-        return symbol
+        return  {"symbol": symbol}
 
     @staticmethod
     def change_board_size():
         size = input("Enter New Board Size (e.g., 3 for 3x3): ")
-        return size
+        return  {"board_size": size}
 
     def play_turn(self, player, board):
         self.display_board(board.board, board.size)
@@ -38,11 +37,11 @@ class Cli:
                 print(f"Please Enter a number between (1-{board.size ** 2}).")
         clear_screen()
 
-    def status_message(self, player, status):
-        if status == GameEnum.WIN:
-            print(f"Congratulations! {player.name} wins!")
-        elif status == GameEnum.DRAW:
-            print("It's a draw!")
+    # def status_message(self, player, status):
+    #     if status == GameEnum.WIN:
+    #         print(f"Congratulations! {player.name} wins!")
+    #     elif status == GameEnum.DRAW:
+    #         print("It's a draw!")
 
 
     # ----- Board Interaction Methods -----
@@ -64,26 +63,30 @@ class Cli:
         print(''.join(info))
         print("\n","-"*30)
 
-        
-    # @staticmethod
-    # def select_action(menu):
-    #     INDEX_MAP = menu_map(menu)
-    #     for idx, action in INDEX_MAP.items():
-    #         print(f"{idx}. {action}")
-            
-    #     while True:
-    #         try:
-    #             choice = int(input("Select an option: "))
-    #             if choice in INDEX_MAP:
-    #                 return resolver(INDEX_MAP[choice])
-    #             else:
-    #                 print("Invalid choice! Please select a valid option.")
-    #         except ValueError:
-    #             print("Please enter a number corresponding to the options.")
+    def show_menu(self, menu):
+        menu_actions = get_menu_actions(menu)
+        INDEX_MAP = menu_map(menu_actions)
 
+        print(f"\n--- {menu.replace('_', ' ').title()} ---\n")
+        for idx, action in INDEX_MAP.items():
+            print(f"{idx}. {action.center(20, '-')}")
+            print("-" * 30)
+        return INDEX_MAP
+    
+    def select_action(self, menu):
+        INDEX_MAP = self.show_menu(menu)
+        while True:
+            try:
+                choice = int(input("\nSelect an option: "))
+                clear_screen()
 
+                if choice in INDEX_MAP:
+                    return INDEX_MAP[choice].replace(' ', '_').upper()
+                else:
+                    print("Invalid choice! Please select a valid option.")
 
-
+            except ValueError:
+                print("Please enter a number corresponding to the options.")
 
 
 

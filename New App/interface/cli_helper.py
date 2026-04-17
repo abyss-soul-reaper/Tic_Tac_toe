@@ -5,9 +5,7 @@ from pipeline.game_enum import GameEnum
 #         return True
 
 def menu_map(menu):
-    INDEX_MAP = {}
-    for idx, action in enumerate(menu, 1):
-        INDEX_MAP[idx] = action.value
+    INDEX_MAP = {idx: action.value.replace('_', ' ').title() for idx, action in enumerate(menu, 1)}
     return INDEX_MAP
 
 
