@@ -5,19 +5,17 @@ class Registry:
     def __init__(self, gameloop):
         self.gameloop = gameloop
 
-
-
     def input_actions_map(self):
         INPUT_ACTION_MAP = {
-            GameEnum.SET_PLAYERS_NAME: self.gameloop.cli.player_name,
-            GameEnum.SET_PLAYERS_SYMBOL: self.gameloop.cli.player_symbol
+            GameEnum.SET_PLAYERS: self.gameloop.players_data,
+
         }
         return INPUT_ACTION_MAP
 
-    def system_actions_map(self):
+    def system_data_actions_map(self):
         SYSTEM_ACTION_MAP = {
             GameEnum.START_GAME: self.gameloop.start_game,
-            # GameEnum.SET_PLAYERS: self.gameloop.setup_players
+            GameEnum.SET_PLAYERS: self.gameloop.set_players
         }
         return SYSTEM_ACTION_MAP
 
@@ -37,3 +35,9 @@ class Registry:
             "board_size": lambda v: v.strip()
         }
         return NORMALIZE_MAP
+
+
+
+
+
+

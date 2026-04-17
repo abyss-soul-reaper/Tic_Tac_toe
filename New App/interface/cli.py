@@ -7,14 +7,13 @@ class Cli:
     """
     # ----- Player Interaction Methods -----
     @staticmethod
-    def player_name():
-        name = input(f"Enter your name (Only Letters!): ")
-        return {"name": name}
-
+    def player_name(player_idx):
+        name = input(f"Player {player_idx} enter your name (Only Letters!): ")
+        return name
     @staticmethod
-    def player_symbol():
-        symbol = input(f"choose your symbol (X OR O): ")
-        return  {"symbol": symbol}
+    def player_symbol(name):
+        symbol = input(f"{name} choose your symbol (X OR O): ")
+        return symbol
 
     @staticmethod
     def change_board_size():

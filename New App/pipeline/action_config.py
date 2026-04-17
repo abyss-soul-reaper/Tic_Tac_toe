@@ -23,14 +23,17 @@ class Resolver:
 ACTION_CONFIG = {
     GameEnum.START_GAME: {
         "requires_input": False,
-        "requires_system": True,
         "requires_pipeline": False,
-    },
-    # GameEnum.SET_PLAYERS: {
-    #     "requires_input": True,
-    #     "requires_system": False,
-    #     "requires_pipeline": True,
-    # },
 
+        "requires_system_data": True,
+        "system_depends_on_input": False,
+    },
+    GameEnum.SET_PLAYERS: {
+        "requires_input": True,
+        "requires_pipeline": True,
+
+        "requires_system_data": True,
+        "system_depends_on_input": True,
+    }
      
 }
