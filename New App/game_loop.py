@@ -1,6 +1,12 @@
+from game.board import Board
 from interface.cli import Cli
+from game.game_logic import *
+from players.player import Player
+from game.game_state import GameState
 from pipeline.registry import Registry
+from pipeline.pipeline import Pipeline
 from pipeline.dispatcher import Dispatcher
+from pipeline.action_config import Resolver
 
 
 
@@ -8,10 +14,27 @@ class GameLoop:
     def __init__(self):
         self.cli = Cli()
         self.registry = Registry(self)
-        self.dispatcher = Dispatcher(self.registry)
+        self.pipeline = Pipeline(self.registry)
+        self.dispatcher = Dispatcher(self.registry, self.pipeline, Resolver)
 
 
-    
+    def setup_players(self, player_count=2):
+        players = []
+        
+        for _ in range(player_count):
+            name = self.cli.player_name()
+            symbol = self.cli.player_symbol()
+            players.append(Player(name, symbol))
+
+        return players
+
+    def start_game(self, player_data):
+        GameState(player_data, Board())
+        while True:
+            self.cli.play_turn(GameState.current_player, GameState.board)
+            status = check(GameState.board)
+
+
 
 
     
@@ -55,3 +78,6 @@ class GameLoop:
 # if __name__ == "__main__":
 
 
+# GameLoop().dispatcher.execute("START_GAME")
+
+GameLoop().setup_players()

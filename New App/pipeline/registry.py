@@ -5,6 +5,16 @@ class Registry:
     def __init__(self, gameloop):
         self.gameloop = gameloop
 
+
+    def input_actions_map(self):
+        INPUT_ACTIONS_MAP = {
+            GameEnum.START_GAME: self.gameloop.cli.player_name,
+        }
+        return INPUT_ACTIONS_MAP
+
+
+
+
     @property
     def main_menu_actions(self):
         MAIN_MENU_MAP = {

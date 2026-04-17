@@ -9,21 +9,30 @@ class Dispatcher:
     # ---- Input Handling Method ----
     def execute_input(self, config, action):
         res = BaseResult()
+
+        if not config:
+            return res.fail("No configuration for input")
+        
+        handler = self.registry.input_actions_map()
+        if action not in handler:
+            return res.fail("No input handler for action")
         
         try:
-            pass
+            res.payload = handler[action]()
+            return res.success()
         except Exception as e:
             return res.fail(str(e))
 
     # ---- Pipeline Methods ----
-    def execute_pipeline(self, action, data):
+    def execute_pipeline(self,data):
         res = BaseResult()
 
-        if self.pipeline.validate_input(action, data):
-            return self.pipeline.normalize_input(action, data)
-        else:
-            return res.fail(f"Invalid input for {action}")
-        
+        pipe = self.pipeline.input_pipeline(data)
+        if not pipe:
+            return res.fail("Pipeline execution failed")
+        res.payload = pipe
+        return res.success()
+
     # ---- Action Execution Method ----
     def execute(self, action):
         res = BaseResult()
@@ -43,7 +52,7 @@ class Dispatcher:
 
         # PIPELINE
         if config.get("requires_pipeline"):
-            pipeline_res = self.execute_pipeline(enum_action, current_data)
+            pipeline_res = self.execute_pipeline(current_data)
             if not pipeline_res.ok:
                 return pipeline_res
             current_data = pipeline_res.payload

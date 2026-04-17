@@ -1,4 +1,4 @@
-from config.game_enum import GameEnum
+from pipeline.game_enum import GameEnum
 
 def check(board):
     if check_win(board.board):

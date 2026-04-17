@@ -6,18 +6,29 @@ class GameEnum(Enum):
     DRAW = "draw"
     CONTINUE = "continue"
 
-    # Define Menu options
+    # 🎮 Game Flow
     START_GAME = "START_GAME"
-    GAME_INFO = "GAME_INFO"
-    SCORE_RECORD = "SCORE_RECORD"
+    START_MATCH = "START_MATCH"
+    RESTART_GAME = "RESTART_GAME"
     QUIT_GAME = "QUIT_GAME"
+
+    # 👤 Player Setup
+    SET_PLAYER_NAME = "SET_PLAYER_NAME"
+    SET_PLAYER_SYMBOL = "SET_PLAYER_SYMBOL"
 
     # ⚙️ Settings
     SETTINGS = "SETTINGS"
     CHANGE_BOARD_SIZE = "CHANGE_BOARD_SIZE"
     RESET_SETTINGS = "RESET_SETTINGS"
 
-    RESTART_GAME = "RESTART_GAME"
+    # ℹ️ Info / Scores
+    GAME_INFO = "GAME_INFO"
+    SCORE_RECORD = "SCORE_RECORD"
+
+    # 💾 Data (للاستخدام الداخلي بعدين)
+    SAVE_GAME = "SAVE_GAME"
+    LOAD_GAME = "LOAD_GAME"
+    SAVE_SCORE = "SAVE_SCORE"
 
     # 🧭 Navigation
     NAV_BACK = "NAV_BACK"
@@ -29,6 +40,14 @@ MENU_ACTIONS = {
         GameEnum.SCORE_RECORD,
         GameEnum.SETTINGS,
         GameEnum.QUIT_GAME,
+    ],
+
+    "game_setup": [
+        GameEnum.SET_PLAYER_NAME,
+        GameEnum.SET_PLAYER_SYMBOL,
+        GameEnum.CHANGE_BOARD_SIZE,
+        GameEnum.START_MATCH,
+        GameEnum.NAV_BACK,
     ],
 
     "settings_menu": [
