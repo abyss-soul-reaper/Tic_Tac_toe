@@ -1,5 +1,6 @@
 from pipeline.game_enum import get_menu_actions
 from interface.cli_helper import *
+from utils.validation import *
 from utils.helpers import *
 
 class Cli:
@@ -8,17 +9,24 @@ class Cli:
     # ----- Player Interaction Methods -----
     @staticmethod
     def player_name(player_idx):
-        name = input(f"Player {player_idx} enter your name (Only Letters!): ")
+        name = input(f"Player {player_idx} enter your name (Only Letters!): ").strip().title()
+        while not validate_name(name):
+            name = input(f"Player {player_idx} enter a valid name (Only Letters!): ").strip().title()
         return name
+    
     @staticmethod
-    def player_symbol(name):
-        symbol = input(f"{name} choose your symbol (X OR O): ")
+    def player_symbol(name, used_symbols):
+        symbol = input(f"{name} choose your symbol (X OR O): ").strip().upper()
+        while not (validate_symbol(symbol) and check_unique_symbols(used_symbols, symbol)):
+            symbol = input(f"{name} choose a valid symbol (X OR O) that hasn't been taken: ").strip().upper()
         return symbol
 
     @staticmethod
-    def change_board_size():
+    def change_board_size(current_size):
         size = input("Enter New Board Size (e.g., 3 for 3x3): ")
-        return  {"board_size": size}
+        while not validate_board_size(size, current_size):
+            size = input("Please enter a valid board size (3-10): ")
+        return int(size)
 
     def play_turn(self, player, board):
         self.display_board(board.board, board.size)

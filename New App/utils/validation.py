@@ -9,10 +9,13 @@ def validate_name(name):
 def validate_symbol(symbol):
     return bool(SYMBO_PATTERN.fullmatch(symbol.strip().upper()))
 
-def validate_board_size(size):
+def check_unique_symbols(used_symbols, symbol):
+    return symbol not in used_symbols
+
+def validate_board_size(new_size, current_size):
     try:
-        size_int = int(size)
-        return 3 <= size_int <= 10
+        size_int = int(new_size)
+        return 3 <= size_int <= 10 and size_int != current_size
     except ValueError:
         return False
     

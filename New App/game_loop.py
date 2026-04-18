@@ -24,38 +24,43 @@ class GameLoop:
     def get_menu_action(self):
         return self.cli.select_action(self.action_service.current_menu)
 
-    def players_data(self, players_count=2):
-        players_data = []
+    def start_game(self):
+        self.action_service.navigate_to(Menus.GAME_SETUP)
 
-        for idx in range(1,players_count+1):
+    def players_data(self, players_count=2):
+        used_symbols = self.action_service.used_symbols
+
+        for idx in range(1, players_count+1):
             name = self.cli.player_name(idx)
-            symbol = self.cli.player_symbol(name)
-            players_data.append({"name": name, "symbol": symbol})
+            symbol = self.cli.player_symbol(name, used_symbols)
 
             clear_screen()
-        print(players_data)        
+            used_symbols.add(symbol)
+            self.action_service.players.append(Player(name, symbol))
 
-        # for idx in range(1,players_count+1):
-        #     name = self.cli.player_name(idx)
-        #     symbol = self.cli.player_symbol(name)
-        #     clear_screen()
-            
-        # return {"name": name, "symbol": symbol}
 
-    def set_players(self, players_data):
-        Player(players_data.get("name"), players_data.get("symbol"))
+    def game_state(self):
+        return GameState(self.action_service.players, Board(self.action_service.board_size))
+
+    def change_board_size(self):
+        current_size = self.action_service.board_size
+        new_size = self.cli.change_board_size(current_size)
+
+        self.action_service.set_board_size(new_size)
+
+
+
+
 
     def play_game(self):
         while True:
             action = self.get_menu_action()
             self.dispatcher.execute(action)
 
-    def start_game(self):
-        self.action_service.navigate_to(Menus.GAME_SETUP)
 
 
 
 
 
-GameLoop().players_data()
+GameLoop().change_board_size()
 
