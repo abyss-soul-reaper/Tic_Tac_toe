@@ -14,6 +14,7 @@ class GameEnum(Enum):
 
     # 👤 Player Setup
     SET_PLAYERS = "SET_PLAYERS"
+    CHANGE_PLAYERS_COUNT = "CHANGE_PLAYERS_COUNT"
     
     # ⚙️ Settings
     SETTINGS = "SETTINGS"

@@ -39,15 +39,15 @@ class Dispatcher:
         except Exception as e:
             return res.fail(str(e))
 
-    # ---- Pipeline Methods ----
-    def execute_pipeline(self, data, config, action):
-        res = DispatcherResult("PIPELINE_EXECUTION", action)
+    # # ---- Pipeline Methods ----
+    # def execute_pipeline(self, data, config, action):
+    #     res = DispatcherResult("PIPELINE_EXECUTION", action)
 
-        pipe = self.pipeline.input_pipeline(data)
-        if not pipe:
-            return res.fail("Pipeline execution failed")
-        res.payload["pipeline"] = pipe
-        return res.success()
+    #     pipe = self.pipeline.input_pipeline(data)
+    #     if not pipe:
+    #         return res.fail("Pipeline execution failed")
+    #     res.payload["pipeline"] = pipe
+    #     return res.success()
 
     # ---- Action Execution Method ----
     def execute(self, action):
@@ -66,12 +66,12 @@ class Dispatcher:
                 return input_res
             current_data = input_res.payload["input"]
 
-        # PIPELINE
-        if config.get("requires_pipeline"):
-            pipeline_res = self.execute_pipeline(current_data, config, enum_action)
-            if not pipeline_res.ok:
-                return pipeline_res
-            current_data = pipeline_res.payload["pipeline"]
+        # # PIPELINE
+        # if config.get("requires_pipeline"):
+        #     pipeline_res = self.execute_pipeline(current_data, config, enum_action)
+        #     if not pipeline_res.ok:
+        #         return pipeline_res
+        #     current_data = pipeline_res.payload["pipeline"]
 
         # SYSTEM
         if config.get("requires_system_data"):

@@ -12,6 +12,15 @@ def validate_symbol(symbol):
 def check_unique_symbols(used_symbols, symbol):
     return symbol not in used_symbols
 
+
+def validate_players_count(count, current_count):
+    try:
+        count_int = int(count)
+        return 2 <= count_int <= 4 and count_int != current_count
+    except ValueError:
+        return False    
+
+
 def validate_board_size(new_size, current_size):
     try:
         size_int = int(new_size)

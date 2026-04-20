@@ -23,17 +23,38 @@ class Resolver:
 ACTION_CONFIG = {
     GameEnum.START_GAME: {
         "requires_input": False,
-        "requires_pipeline": False,
+        # "requires_pipeline": False,
 
         "requires_system_data": True,
         "system_depends_on_input": False,
     },
     GameEnum.SET_PLAYERS: {
         "requires_input": True,
-        "requires_pipeline": True,
+        # "requires_pipeline": True,
 
         "requires_system_data": True,
         "system_depends_on_input": True,
+    },
+    GameEnum.START_MATCH: {
+        "requires_input": True,
+        # "requires_pipeline": True,
+
+        "requires_system_data": False,
+        "system_depends_on_input": False,
+    },
+    GameEnum.CHANGE_BOARD_SIZE: {
+        "requires_input": True,
+        # "requires_pipeline": True,
+
+        "requires_system_data": False,
+        "system_depends_on_input": False,
+    },
+    GameEnum.CHANGE_PLAYERS_COUNT: {
+        "requires_input": True,
+        # "requires_pipeline": True,
+
+        "requires_system_data": False,
+        "system_depends_on_input": False,
     }
      
 }

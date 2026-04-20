@@ -21,6 +21,13 @@ class Cli:
             symbol = input(f"{name} choose a valid symbol (X OR O) that hasn't been taken: ").strip().upper()
         return symbol
 
+
+    def change_players_count(self, current_count):
+        count = input("Enter number of players (2-4): ")
+        while not validate_players_count(count, current_count):
+            count = input("Please enter a valid number of players (2-4): ")
+        return int(count)
+
     @staticmethod
     def change_board_size(current_size):
         size = input("Enter New Board Size (e.g., 3 for 3x3): ")
@@ -44,11 +51,11 @@ class Cli:
                 print(f"Please Enter a number between (1-{board.size ** 2}).")
         clear_screen()
 
-    # def status_message(self, player, status):
-    #     if status == GameEnum.WIN:
-    #         print(f"Congratulations! {player.name} wins!")
-    #     elif status == GameEnum.DRAW:
-    #         print("It's a draw!")
+    def status_message(self, player, status):
+        if status == GameEnum.WIN:
+            print(f"Congratulations! {player.name} wins!")
+        elif status == GameEnum.DRAW:
+            print("It's a draw!")
 
 
     # ----- Board Interaction Methods -----

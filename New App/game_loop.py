@@ -1,12 +1,13 @@
 from menus import Menus
 from utils.helpers import *
-from game.board import Board
-from interface.cli import Cli
 from game.game_logic import *
+from interface.cli import Cli
 from players.player import Player
+from game.game_board import Board
 from game.game_state import GameState
 from pipeline.registry import Registry
 from pipeline.pipeline import Pipeline
+from pipeline.game_enum import GameEnum
 from action_service import ActionService
 from pipeline.dispatcher import Dispatcher
 from pipeline.action_config import Resolver
@@ -38,15 +39,37 @@ class GameLoop:
             used_symbols.add(symbol)
             self.action_service.players.append(Player(name, symbol))
 
+    def change_players_count(self):
+        current_count = self.action_service.players_count
+        new_count = self.cli.change_players_count(current_count)
 
-    def game_state(self):
-        return GameState(self.action_service.players, Board(self.action_service.board_size))
+        self.action_service.players_count = new_count
 
     def change_board_size(self):
         current_size = self.action_service.board_size
         new_size = self.cli.change_board_size(current_size)
 
         self.action_service.set_board_size(new_size)
+
+    def game_state(self):
+        return GameState(self.action_service.players, Board(self.action_service.board_size))
+
+    def play_turn(self):
+        game_state = self.game_state()
+        while True:
+            self.cli.play_turn(game_state.current_player, game_state.board)
+            status = check(game_state.board)
+
+            if status in [GameEnum.WIN, GameEnum.DRAW]:
+                self.cli.status_message(game_state.current_player, status)
+                break
+
+            game_state.switch_player()
+
+
+
+
+
 
 
 
@@ -61,6 +84,5 @@ class GameLoop:
 
 
 
-
-GameLoop().change_board_size()
+GameLoop().play_game()
 
