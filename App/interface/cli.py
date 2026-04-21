@@ -1,0 +1,111 @@
+from App.pipeline.game_enum import get_menu_actions
+from App.interface.cli_helper import *
+from App.utils.validation import *
+from App.utils.helpers import *
+
+class Cli:
+    """A class to handle command-line interactions for the Tic Tac Toe game.
+    """
+    # ----- Player Interaction Methods -----
+    @staticmethod
+    def player_name(player_idx):
+        name = input(f"Player {player_idx} enter your name (Only Letters!): ").strip().title()
+        while not validate_name(name):
+            name = input(f"Player {player_idx} enter a valid name (Only Letters!): ").strip().title()
+        return name
+    
+    @staticmethod
+    def player_symbol(name, used_symbols):
+        symbol = input(f"{name} choose your symbol (X OR O): ").strip().upper()
+        while not (validate_symbol(symbol) and check_unique_symbols(used_symbols, symbol)):
+            symbol = input(f"{name} choose a valid symbol (X OR O) that hasn't been taken: ").strip().upper()
+        return symbol
+
+
+    def change_players_count(self, ):
+        print("This feature is currently unavailable.")
+        # count = input("Enter number of players (2-4): ")
+        # while not validate_players_count(count, current_count):
+        #     count = input("Please enter a valid number of players (2-4): ")
+        # return int(count)
+
+    @staticmethod
+    def change_board_size():
+        print("This feature is currently unavailable.")
+        # size = input("Enter New Board Size (e.g., 3 for 3x3): ")
+        # while not validate_board_size(size, current_size):
+        #     size = input("Please enter a valid board size (3-10): ")
+        # return int(size)
+
+    def play_turn(self, player, board):
+        self.display_board(board.board, board.size)
+
+        print(f"{player.name}'s turn ({player.symbol})")
+        while True:
+            try:
+                cell_choice = int(input(f"Choose a cell (1-{board.size ** 2}): "))
+                if board.update_board(cell_choice, player.symbol):
+                    break
+                else:
+                    print("Invalid Move! Try Again.")
+
+            except ValueError:
+                print(f"Please Enter a number between (1-{board.size ** 2}).")
+        clear_screen()
+
+    def status_message(self, player, status):
+        if status == GameEnum.WIN:
+            print(f"Congratulations! {player.name} wins!")
+        elif status == GameEnum.DRAW:
+            print("It's a draw!")
+
+    def error_message(self, message):
+        print(f"Error: {message}")
+
+
+    # ----- Board Interaction Methods -----
+    def display_board(self, board, size):
+        for i in range(0, len(board), size):
+            print("|".join(board[i: i+size]))
+            if i < (len(board) - size):
+                print("_" * (2 * size - 1))
+
+    # ----- Menu Interaction Methods -----
+    @staticmethod
+    def game_info():
+        info = [
+            "Tic-Tac-Toe is a classic two-player strategy game.\n",
+            "\nOpponents take turns marking spaces in a 3x3 grid.\n",
+            "\nThe objective is to align three symbols."
+        ]
+        print("\n--- GAME INFO ---\n")
+        print(''.join(info))
+        print("\n","-"*30)
+
+    def show_menu(self, menu):
+        menu_actions = get_menu_actions(menu)
+        INDEX_MAP = menu_map(menu_actions)
+
+        print(f"\n--- {menu.replace('_', ' ').title()} ---\n")
+        for idx, action in INDEX_MAP.items():
+            print(f"{idx}. {action.center(20, '-')}")
+            print("-" * 30)
+        return INDEX_MAP
+    
+    def select_action(self, menu):
+        INDEX_MAP = self.show_menu(menu)
+        while True:
+            try:
+                choice = int(input("\nSelect an option: "))
+                clear_screen()
+
+                if choice in INDEX_MAP:
+                    return INDEX_MAP[choice].replace(' ', '_').upper()
+                else:
+                    print("Invalid choice! Please select a valid option.")
+
+            except ValueError:
+                print("Please enter a number corresponding to the options.")
+
+
+
