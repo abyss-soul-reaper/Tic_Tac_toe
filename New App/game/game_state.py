@@ -14,3 +14,4 @@ class GameState:
     def reset(self):
         self.board.reset_board()
         self.current_idx = 0
+

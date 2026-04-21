@@ -57,6 +57,9 @@ class Cli:
         elif status == GameEnum.DRAW:
             print("It's a draw!")
 
+    def error_message(self, message):
+        print(f"Error: {message}")
+
 
     # ----- Board Interaction Methods -----
     def display_board(self, board, size):
@@ -92,7 +95,6 @@ class Cli:
         while True:
             try:
                 choice = int(input("\nSelect an option: "))
-                clear_screen()
 
                 if choice in INDEX_MAP:
                     return INDEX_MAP[choice].replace(' ', '_').upper()

@@ -28,6 +28,12 @@ class GameLoop:
     def start_game(self):
         self.action_service.navigate_to(Menus.GAME_SETUP)
 
+    def settings_menu(self):
+        self.action_service.navigate_to(Menus.SETTINGS_MENU)
+
+    def end_menu(self):
+        self.action_service.navigate_to(Menus.END_MENU)
+
     def players_data(self, players_count=2):
         used_symbols = self.action_service.used_symbols
 
@@ -57,28 +63,43 @@ class GameLoop:
     def play_turn(self):
         game_state = self.game_state()
         while True:
-            self.cli.play_turn(game_state.current_player, game_state.board)
-            status = check(game_state.board)
+            try:
+                self.cli.play_turn(game_state.current_player, game_state.board)
+                status = check(game_state.board)
 
-            if status in [GameEnum.WIN, GameEnum.DRAW]:
-                self.cli.status_message(game_state.current_player, status)
+                if status in [GameEnum.WIN, GameEnum.DRAW]:
+                    self.cli.status_message(game_state.current_player, status)
+                    self.end_menu()
+                    break
+
+                game_state.switch_player()
+            except:
+                self.cli.error_message("An error occurred while playing the turn, Please try again.")
                 break
 
-            game_state.switch_player()
+    def restart_game(self):
+        self.play_turn()
 
+    def reset_game(self):
+        game_state = self.game_state()
+        self.action_service.reset()
+        game_state.reset()
 
+    def game_info(self):
+        self.cli.game_info()
 
+    def navigate_back(self):
+        self.action_service.navigate_back()
 
-
-
-
-
-
+    def quit_game(self):
+        self.action_service.quit_game()
 
     def play_game(self):
         while True:
             action = self.get_menu_action()
-            self.dispatcher.execute(action)
+            res = self.dispatcher.execute(action)
+
+
 
 
 

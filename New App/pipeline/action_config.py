@@ -55,6 +55,48 @@ ACTION_CONFIG = {
 
         "requires_system_data": False,
         "system_depends_on_input": False,
+    },
+    GameEnum.NAV_BACK: {
+        "requires_input": False,
+        # "requires_pipeline": True,
+
+        "requires_system_data": True,
+        "system_depends_on_input": False,
+    },
+    GameEnum.QUIT_GAME: {
+        "requires_input": False,
+        # "requires_pipeline": True,
+
+        "requires_system_data": True,
+        "system_depends_on_input": False,
+    },
+    GameEnum.GAME_INFO: {
+        "requires_input": True,
+        # "requires_pipeline": True,
+
+        "requires_system_data": False,
+        "system_depends_on_input": False,
+    },
+    GameEnum.SETTINGS: {
+        "requires_input": False,
+        # "requires_pipeline": True,
+
+        "requires_system_data": True,
+        "system_depends_on_input": False,
+    },
+    GameEnum.RESET_SETTINGS: {
+        "requires_input": False,
+        # "requires_pipeline": True,
+
+        "requires_system_data": True,
+        "system_depends_on_input": False,
+    },
+    GameEnum.RESTART_GAME: {
+        "requires_input": False,
+        # "requires_pipeline": True,
+
+        "requires_system_data": True,
+        "system_depends_on_input": False,
     }
-     
+
 }
